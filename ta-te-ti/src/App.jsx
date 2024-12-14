@@ -8,18 +8,17 @@ function App() {
     [null, null, null],
   ]);
 
-  const handleCellClick = (rowIndex, cellIndex) => {
+  const handleCellClick = (x, y) => {
     // si la celda ya está ocupada, no hacemos nada
-    if (board[rowIndex][cellIndex] !== null) return;
+    if (board[x][y] !== null) return;
 
     // actualizar el tablero con un movimiento (por ahora marcamos con 'X')
-    // logica: devuelve la misma matriz modificada en la coordenada donde se hizo click 
-    // const x = 0; const y = 2
-    // board.map((row, rIndex) => row.map((cell, cIndex) => rIndex === x && cIndex === y ? 'X' : cell))
-
-    const newBoard = board.map((row, rIndex) =>
-      row.map((cell, cIndex) =>
-        rIndex === rowIndex && cIndex === cellIndex ? 'X' : cell
+    // logica: llama a setBoard pasandole un nuevo board con una X en la coordenada (x, y) donde se hizo click 
+    // let posX = 0; let posY = 2;
+    // a.map((fila, fIndex) => fila.map((cell, cIndex) => fIndex === posX && cIndex === posY ? 'X' : cell))
+    const newBoard = board.map((fila, fIndex) =>
+      fila.map((cell, cIndex) =>
+        fIndex === x && cIndex === y ? 'X' : cell
       )
     );
 
