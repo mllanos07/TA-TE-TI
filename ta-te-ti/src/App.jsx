@@ -8,12 +8,18 @@ function App() {
     [null, null, null],
     [null, null, null],
   ]);
-  const [jugador, setJugador] = useState("O")
-  const [ganador, setGandaor] = useState(null)
+  const [jugador, setJugador] = useState("X")
+  const [ganador, setGanador] = useState(null)
 
   const handleCellClick = (x, y) => {
-    // si la celda ya está ocupada, no hacemos nada
-    if (board[x][y] !== null) return;
+    // si la celda ya está ocupada => no hacemos nada
+    if (board[x][y] !== null){ 
+      return;
+    }
+    // si ya hay un ganador => no hago nada
+    if (ganador !== null){
+      return;
+    }
 
     console.log(`manjenado click en la celda [${x}][${y}]`)
 
@@ -32,31 +38,31 @@ function App() {
 
   useEffect(() => {
     // filas
-    if (board[0][0] === board[0][1] && board[0][1] === board[0][2]){
-      setGandaor(board[0][0])
+    if (board[0][0] && board[0][0] === board[0][1] && board[0][1] === board[0][2]){
+      setGanador(board[0][0])
     }
-    if (board[1][0] === board[1][1] && board[1][1] === board[1][2]){
-      setGandaor(board[1][0])
+    if (board[1][0] && board[1][0] === board[1][1] && board[1][1] === board[1][2]){
+      setGanador(board[1][0])
     }
-    if (board[2][0] === board[2][1] && board[2][1] === board[2][2]){
-      setGandaor(board[2][0])
+    if (board[2][0] && board[2][0] === board[2][1] && board[2][1] === board[2][2]){
+      setGanador(board[2][0])
     }
     // columnas
-    if (board[0][0] === board[1][0] && board[1][0] === board[2][0]){
-      setGandaor(board[0][0])
+    if (board[0][0] && board[0][0] === board[1][0] && board[1][0] === board[2][0]){
+      setGanador(board[0][0])
     }
-    if (board[0][1] === board[1][1] && board[1][1] === board[2][1]){
-      setGandaor(board[0][1])
+    if (board[0][1] && board[0][1] === board[1][1] && board[1][1] === board[2][1]){
+      setGanador(board[0][1])
     }
-    if (board[0][2] === board[1][2] && board[1][2] === board[2][2]){
-      setGandaor(board[0][2])
+    if (board[0][2] && board[0][2] === board[1][2] && board[1][2] === board[2][2]){
+      setGanador(board[0][2])
     }
     // diagonales
-    if (board[0][0] === board[1][1] && board[1][1] === board[2][2]){
-      setGandaor(board[0][0])
+    if (board[0][0] && board[0][0] === board[1][1] && board[1][1] === board[2][2]){
+      setGanador(board[0][0])
     }
-    if (board[0][2] === board[1][1] && board[1][1] === board[2][0]){
-      setGandaor(board[0][2])
+    if (board[0][2] && board[0][2] === board[1][1] && board[1][1] === board[2][0]){
+      setGanador(board[0][2])
     }
   }, [board])
 
