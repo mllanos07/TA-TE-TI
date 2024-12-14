@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
+import { use } from 'react';
 
 function App() {
   const [board, setBoard] = useState([
@@ -7,27 +8,62 @@ function App() {
     [null, null, null],
     [null, null, null],
   ]);
+  const [jugador, setJugador] = useState("O")
+  const [ganador, setGandaor] = useState(null)
 
   const handleCellClick = (x, y) => {
     // si la celda ya está ocupada, no hacemos nada
     if (board[x][y] !== null) return;
 
-    // actualizar el tablero con un movimiento (por ahora marcamos con 'X')
+    console.log(`manjenado click en la celda [${x}][${y}]`)
+
     // logica: llama a setBoard pasandole un nuevo board con una X en la coordenada (x, y) donde se hizo click 
     // let posX = 0; let posY = 2;
     // a.map((fila, fIndex) => fila.map((cell, cIndex) => fIndex === posX && cIndex === posY ? 'X' : cell))
     const newBoard = board.map((fila, fIndex) =>
       fila.map((cell, cIndex) =>
-        fIndex === x && cIndex === y ? 'X' : cell
+        fIndex === x && cIndex === y ? jugador : cell
       )
     );
-
-    setBoard(newBoard); // actualizamos el estado del tablero
+    setBoard(newBoard);
+    // booleano ? accion_si_true : accion_false  
+    jugador === "O" ? setJugador("X") : setJugador("O")
   };
+
+  useEffect(() => {
+    // filas
+    if (board[0][0] === board[0][1] && board[0][1] === board[0][2]){
+      setGandaor(board[0][0])
+    }
+    if (board[1][0] === board[1][1] && board[1][1] === board[1][2]){
+      setGandaor(board[1][0])
+    }
+    if (board[2][0] === board[2][1] && board[2][1] === board[2][2]){
+      setGandaor(board[2][0])
+    }
+    // columnas
+    if (board[0][0] === board[1][0] && board[1][0] === board[2][0]){
+      setGandaor(board[0][0])
+    }
+    if (board[0][1] === board[1][1] && board[1][1] === board[2][1]){
+      setGandaor(board[0][1])
+    }
+    if (board[0][2] === board[1][2] && board[1][2] === board[2][2]){
+      setGandaor(board[0][2])
+    }
+    // diagonales
+    if (board[0][0] === board[1][1] && board[1][1] === board[2][2]){
+      setGandaor(board[0][0])
+    }
+    if (board[0][2] === board[1][1] && board[1][1] === board[2][0]){
+      setGandaor(board[0][2])
+    }
+  }, [board])
 
   return (
     <>
       <h1>Ta-Te-Ti</h1>
+      <h2>ganador: {ganador}</h2>
       <div className="board">
         {/* Fila 1 */}
         <div className="row">
