@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { use } from 'react';
 
 function App() {
   const [board, setBoard] = useState([
@@ -10,6 +9,7 @@ function App() {
   ]);
   const [jugador, setJugador] = useState("X")
   const [ganador, setGanador] = useState(null)
+  const [jugadas, setJugadas] = useState(0)
 
   const handleCellClick = (x, y) => {
     // si la celda ya está ocupada => no hacemos nada
@@ -21,7 +21,7 @@ function App() {
       return;
     }
 
-    console.log(`manjenado click en la celda [${x}][${y}]`)
+    console.log(`manejando click en la celda [${x}][${y}]`)
 
     // logica: llama a setBoard pasandole un nuevo board con una X en la coordenada (x, y) donde se hizo click 
     // let posX = 0; let posY = 2;
@@ -34,7 +34,21 @@ function App() {
     setBoard(newBoard);
     // booleano ? accion_si_true : accion_false  
     jugador === "O" ? setJugador("X") : setJugador("O")
+
+    setJugadas(jugadas + 1)
   };
+  
+
+  const handleReset = () => {
+    setBoard([
+      [null, null, null],
+      [null, null, null],
+      [null, null, null],
+    ])
+    setGanador(null)
+    setJugador("X")
+    setJugadas(0)
+}
 
   useEffect(() => {
     // filas
@@ -64,31 +78,38 @@ function App() {
     if (board[0][2] && board[0][2] === board[1][1] && board[1][1] === board[2][0]){
       setGanador(board[0][2])
     }
+
+    if (jugadas == 9 && ganador == null){
+      setGanador("Empate")
+    }
   }, [board])
 
   return (
     <>
       <h1>Ta-Te-Ti</h1>
-      <h2>ganador: {ganador}</h2>
+      <h2>Ganador: {ganador}</h2>
+      <h3>Cantidad de jugadas: {jugadas}</h3>
       <div className="board">
-        {/* Fila 1 */}
+        {/* fila 1 */}
         <div className="row">
           <div className="celda" onClick={() => handleCellClick(0, 0)}>{board[0][0]}</div>
           <div className="celda" onClick={() => handleCellClick(0, 1)}>{board[0][1]}</div>
           <div className="celda" onClick={() => handleCellClick(0, 2)}>{board[0][2]}</div>
         </div>
-        {/* Fila 2 */}
+        {/* fila 2 */}
         <div className="row">
           <div className="celda" onClick={() => handleCellClick(1, 0)}>{board[1][0]}</div>
           <div className="celda" onClick={() => handleCellClick(1, 1)}>{board[1][1]}</div>
           <div className="celda" onClick={() => handleCellClick(1, 2)}>{board[1][2]}</div>
         </div>
-        {/* Fila 3 */}
+        {/* fila 3 */}
         <div className="row">
           <div className="celda" onClick={() => handleCellClick(2, 0)}>{board[2][0]}</div>
           <div className="celda" onClick={() => handleCellClick(2, 1)}>{board[2][1]}</div>
           <div className="celda" onClick={() => handleCellClick(2, 2)}>{board[2][2]}</div>
         </div>
+        <br></br>
+        <button onClick={() => handleReset()}>Resetear partida</button>
       </div>
     </>
   );
