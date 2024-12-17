@@ -9,7 +9,8 @@ function App() {
   ]);
   const [jugador, setJugador] = useState("X")
   const [ganador, setGanador] = useState(null)
-  const [jugadas, setJugadas] = useState([])
+  const [jugadasX, setJugadasX] = useState([])
+  const [jugadasO, setJugadasO] = useState([])
 
   const handleCellClick = (x, y) => {
     // si la celda ya está ocupada => no hacemos nada
@@ -35,9 +36,15 @@ function App() {
     // booleano ? accion_si_true : accion_false  
     jugador === "O" ? setJugador("X") : setJugador("O")
 
-    let j = jugadas
-    jugadas.push([x, y])
-    setJugadas(j)
+    if(jugador === "X"){
+    let j = jugadasX
+    jugadasX.push([x, y])
+    setJugadasX(j)
+    } else {
+      let j = jugadasO
+    jugadasO.push([x, y])
+    setJugadasO(j)
+    }
   };
   
 
@@ -49,54 +56,64 @@ function App() {
     ])
     setGanador(null)
     setJugador("X")
-    setJugadas([])
+    setJugadasX([])
+    setJugadasO([])
 }
 
   useEffect(() => {
     // filas
     if (board[0][0] && board[0][0] === board[0][1] && board[0][1] === board[0][2]){
       setGanador(board[0][0])
+      setJugador(null)
     }
     if (board[1][0] && board[1][0] === board[1][1] && board[1][1] === board[1][2]){
       setGanador(board[1][0])
+      setJugador(null)
     }
     if (board[2][0] && board[2][0] === board[2][1] && board[2][1] === board[2][2]){
       setGanador(board[2][0])
+      setJugador(null)
     }
     // columnas
     if (board[0][0] && board[0][0] === board[1][0] && board[1][0] === board[2][0]){
       setGanador(board[0][0])
+      setJugador(null)
     }
     if (board[0][1] && board[0][1] === board[1][1] && board[1][1] === board[2][1]){
       setGanador(board[0][1])
+      setJugador(null)
     }
     if (board[0][2] && board[0][2] === board[1][2] && board[1][2] === board[2][2]){
       setGanador(board[0][2])
+      setJugador(null)
     }
     // diagonales
     if (board[0][0] && board[0][0] === board[1][1] && board[1][1] === board[2][2]){
       setGanador(board[0][0])
+      setJugador(null)
     }
     if (board[0][2] && board[0][2] === board[1][1] && board[1][1] === board[2][0]){
       setGanador(board[0][2])
+      setJugador(null)
     }
-    console.log(`cant jugadas ${jugadas}`)
   }, [board])
 
   useEffect(() => {
     const checkEmpate = () =>{
-      if (jugadas.length === 9 && ganador === null){
+      if ((jugadasX.length + jugadasO.length) === 9 && ganador === null){
         setGanador("Empate")
+        setJugador(null)
       }
     }
     checkEmpate()
-  }, [jugadas.length, ganador])
+  }, [jugadasX.length, jugadasO.length, ganador])
 
   return (
     <>
       <h1>Ta-Te-Ti</h1>
       <h2>Ganador: {ganador}</h2> 
-      <h3>Historial de jugadas: {jugadas.map((j) => `(${j[0]}:${j[1]})`).join(", ")}</h3>
+      <h3>X: {jugadasX.map((j) => `(${j[0]}:${j[1]})`).join(", ")}</h3>
+      <h3>O: {jugadasO.map((j) => `(${j[0]}:${j[1]})`).join(", ")}</h3>
       <h2>turno de: {jugador}</h2>
       <div className="board">
         {/* fila 1 */}
