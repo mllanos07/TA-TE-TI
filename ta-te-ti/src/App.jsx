@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './App.css';
 
 function App() {
@@ -11,6 +11,8 @@ function App() {
   const [ganador, setGanador] = useState("")
   const [jugadasX, setJugadasX] = useState([])
   const [jugadasO, setJugadasO] = useState([])
+
+  const resetButtonRef = useRef(null);
 
   const handleCellClick = (x, y) => {
     // si la celda ya está ocupada => no hacemos nada
@@ -98,6 +100,12 @@ function App() {
     }
   }, [board])
 
+  useEffect(() => {
+    if (ganador || (jugadasX.length + jugadasO.length === 9)) {
+      resetButtonRef.current?.focus();
+    }
+  }, [ganador, jugadasX.length, jugadasO.length ]);
+
   return (
     <>
       <h1>Ta-Te-Ti</h1>
@@ -125,7 +133,7 @@ function App() {
           <div className="celda" onClick={() => handleCellClick(2, 2)}>{board[2][2]}</div>
         </div>
         <br></br>
-        <button onClick={() => handleReset()}>Resetear partida</button>
+        <button ref={resetButtonRef} onClick={() => handleReset()}>Resetear partida</button>
       </div>
     </>
   );
