@@ -9,7 +9,7 @@ function App() {
   ]);
   const [jugador, setJugador] = useState("X")
   const [ganador, setGanador] = useState(null)
-  const [jugadas, setJugadas] = useState(0)
+  const [jugadas, setJugadas] = useState([])
 
   const handleCellClick = (x, y) => {
     // si la celda ya está ocupada => no hacemos nada
@@ -35,7 +35,9 @@ function App() {
     // booleano ? accion_si_true : accion_false  
     jugador === "O" ? setJugador("X") : setJugador("O")
 
-    setJugadas(jugadas + 1)
+    let j = jugadas
+    jugadas.push([x, y])
+    setJugadas(j)
   };
   
 
@@ -47,7 +49,7 @@ function App() {
     ])
     setGanador(null)
     setJugador("X")
-    setJugadas(0)
+    setJugadas([])
 }
 
   useEffect(() => {
@@ -78,17 +80,24 @@ function App() {
     if (board[0][2] && board[0][2] === board[1][1] && board[1][1] === board[2][0]){
       setGanador(board[0][2])
     }
-
-    if (jugadas == 9 && ganador == null){
-      setGanador("Empate")
-    }
+    console.log(`cant jugadas ${jugadas}`)
   }, [board])
+
+  useEffect(() => {
+    const checkEmpate = () =>{
+      if (jugadas.length === 9 && ganador === null){
+        setGanador("Empate")
+      }
+    }
+    checkEmpate()
+  }, [jugadas.length, ganador])
 
   return (
     <>
       <h1>Ta-Te-Ti</h1>
-      <h2>Ganador: {ganador}</h2>
-      <h3>Cantidad de jugadas: {jugadas}</h3>
+      <h2>Ganador: {ganador}</h2> 
+      <h3>Historial de jugadas: {jugadas.map((j) => `(${j[0]}:${j[1]})`).join(", ")}</h3>
+      <h2>turno de: {jugador}</h2>
       <div className="board">
         {/* fila 1 */}
         <div className="row">
