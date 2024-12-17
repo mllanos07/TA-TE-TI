@@ -8,7 +8,7 @@ function App() {
     [null, null, null],
   ]);
   const [jugador, setJugador] = useState("X")
-  const [ganador, setGanador] = useState(null)
+  const [ganador, setGanador] = useState("")
   const [jugadasX, setJugadasX] = useState([])
   const [jugadasO, setJugadasO] = useState([])
 
@@ -18,7 +18,7 @@ function App() {
       return;
     }
     // si ya hay un ganador => no hago nada
-    if (ganador !== null){
+    if (ganador !== ""){
       return;
     }
 
@@ -54,7 +54,7 @@ function App() {
       [null, null, null],
       [null, null, null],
     ])
-    setGanador(null)
+    setGanador("")
     setJugador("X")
     setJugadasX([])
     setJugadasO([])
@@ -98,23 +98,13 @@ function App() {
     }
   }, [board])
 
-  useEffect(() => {
-    const checkEmpate = () =>{
-      if ((jugadasX.length + jugadasO.length) === 9 && ganador === null){
-        setGanador("Empate")
-        setJugador(null)
-      }
-    }
-    checkEmpate()
-  }, [jugadasX.length, jugadasO.length, ganador])
-
   return (
     <>
       <h1>Ta-Te-Ti</h1>
-      <h2>Ganador: {ganador}</h2> 
+      <h2>Ganador: {`${(jugadasX.length+jugadasO.length === 9 && ganador === "") ? "Empate" : ganador}`}</h2> 
       <h3>X: {jugadasX.map((j) => `(${j[0]}:${j[1]})`).join(", ")}</h3>
       <h3>O: {jugadasO.map((j) => `(${j[0]}:${j[1]})`).join(", ")}</h3>
-      <h2>turno de: {jugador}</h2>
+      <h3>Turno de: {jugador}</h3>
       <div className="board">
         {/* fila 1 */}
         <div className="row">
