@@ -89,7 +89,7 @@ function App() {
   }, [board])
 
   useEffect(() => {
-    if (ganador || (jugadasX.length + jugadasO.length === 9)) {
+    if (ganador !== "" || (jugadasX.length + jugadasO.length === 9)) {
       resetButtonRef.current?.focus();
     }
   }, [ganador, jugadasX.length, jugadasO.length ]);
