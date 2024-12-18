@@ -39,13 +39,9 @@ function App() {
     jugador === "O" ? setJugador("X") : setJugador("O")
 
     if(jugador === "X"){
-    let j = jugadasX
-    jugadasX.push([x, y])
-    setJugadasX(j)
+      setJugadasX([...jugadasX, [x, y]])
     } else {
-      let j = jugadasO
-    jugadasO.push([x, y])
-    setJugadasO(j)
+      setJugadasO([...jugadasO, [x, y]])
     }
   };
   
@@ -66,37 +62,29 @@ function App() {
     // filas
     if (board[0][0] && board[0][0] === board[0][1] && board[0][1] === board[0][2]){
       setGanador(board[0][0])
-      setJugador(null)
     }
     if (board[1][0] && board[1][0] === board[1][1] && board[1][1] === board[1][2]){
       setGanador(board[1][0])
-      setJugador(null)
     }
     if (board[2][0] && board[2][0] === board[2][1] && board[2][1] === board[2][2]){
       setGanador(board[2][0])
-      setJugador(null)
     }
     // columnas
     if (board[0][0] && board[0][0] === board[1][0] && board[1][0] === board[2][0]){
       setGanador(board[0][0])
-      setJugador(null)
     }
     if (board[0][1] && board[0][1] === board[1][1] && board[1][1] === board[2][1]){
       setGanador(board[0][1])
-      setJugador(null)
     }
     if (board[0][2] && board[0][2] === board[1][2] && board[1][2] === board[2][2]){
       setGanador(board[0][2])
-      setJugador(null)
     }
     // diagonales
     if (board[0][0] && board[0][0] === board[1][1] && board[1][1] === board[2][2]){
       setGanador(board[0][0])
-      setJugador(null)
     }
     if (board[0][2] && board[0][2] === board[1][1] && board[1][1] === board[2][0]){
       setGanador(board[0][2])
-      setJugador(null)
     }
   }, [board])
 
@@ -109,10 +97,10 @@ function App() {
   return (
     <>
       <h1>Ta-Te-Ti</h1>
-      <h2>Ganador: {`${(jugadasX.length+jugadasO.length === 9 && ganador === "") ? "Empate" : ganador}`}</h2> 
-      <h3>X: {jugadasX.map((j) => `(${j[0]}:${j[1]})`).join(", ")}</h3>
-      <h3>O: {jugadasO.map((j) => `(${j[0]}:${j[1]})`).join(", ")}</h3>
-      <h3>Turno de: {jugador}</h3>
+      <h2>Ganador: { (jugadasX.length+jugadasO.length === 9 && ganador === "") ? "Empate" : ganador}</h2> 
+      <h3 className='jugadas'>X: {jugadasX.map((j) => `(${j[0]}:${j[1]})`).join(", ")}</h3>
+      <h3 className="jugadas">O: {jugadasO.map((j) => `(${j[0]}:${j[1]})`).join(", ")}</h3>
+      <h3>Turno de: {(jugadasX.length+jugadasO.length === 9 || ganador !== "") ? "Juego terminado" : jugador}</h3>
       <div className="board">
         {/* fila 1 */}
         <div className="row">
